@@ -1,0 +1,6 @@
+@MasterklubAPI_HostAddress = http://localhost:5084
+
+GET {{MasterklubAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
