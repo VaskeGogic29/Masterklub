@@ -1,4 +1,6 @@
+using Masterklub.Domain.Interfaces;
 using Masterklub.Infrastructure.Data;
+using Masterklub.Infrastructure.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<MasterklubDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MasterklubConnection")));
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
