@@ -1,3 +1,8 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+  </Folder>
+  <Project Path="Masterklub.Domain/Masterklub.Domain.csproj" />
+  <Project Path="Masterklub.Infrastructure/Masterklub.Infrastructure.csproj" />
   <Project Path="MasterklubAPI/MasterklubAPI.csproj" />
 </Solution>
