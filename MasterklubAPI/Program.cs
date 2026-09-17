@@ -1,6 +1,7 @@
 using Masterklub.Domain.Interfaces;
 using Masterklub.Infrastructure.Data;
 using Masterklub.Infrastructure.UnitOfWork;
+using MasterklubAPI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,13 @@ builder.Services.AddDbContext<MasterklubDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MasterklubConnection")));
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddScoped<IAdministratorService, AdministratorService>();
+builder.Services.AddScoped<IProdavacService, ProdavacService>();
+builder.Services.AddScoped<IProizvodService, ProizvodService>();
+builder.Services.AddScoped<INagradaService, NagradaService>();
+builder.Services.AddScoped<IProdajaService, ProdajaService>();
+builder.Services.AddScoped<INarudzbinaNagradeService, NarudzbinaNagradeService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

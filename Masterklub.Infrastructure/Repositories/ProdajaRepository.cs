@@ -11,6 +11,31 @@ public class ProdajaRepository : Repository<Prodaja>, IProdajaRepository
     {
     }
 
+    public override async Task<Prodaja?> GetByIdAsync(int id)
+    {
+        return await Context.Prodaje
+            .Include(p => p.Prodavac)
+            .Include(p => p.Proizvod)
+            .FirstOrDefaultAsync(p => p.Id == id);
+    }
+
+    public override async Task<IEnumerable<Prodaja>> GetAllAsync()
+    {
+        return await Context.Prodaje
+            .Include(p => p.Prodavac)
+            .Include(p => p.Proizvod)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Prodaja>> GetZaProdavcaAsync(int prodavacId)
+    {
+        return await Context.Prodaje
+            .Include(p => p.Prodavac)
+            .Include(p => p.Proizvod)
+            .Where(p => p.ProdavacId == prodavacId)
+            .ToListAsync();
+    }
+
     public async Task<IEnumerable<(Proizvod Proizvod, int UkupnoProdatihKomada)>> GetTop5NajprodavanijihProizvodaAsync()
     {
         var poredjenje = await Context.Prodaje

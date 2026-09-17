@@ -15,12 +15,12 @@ public class Repository<T> : IRepository<T> where T : class
         DbSet = context.Set<T>();
     }
 
-    public async Task<T?> GetByIdAsync(int id)
+    public virtual async Task<T?> GetByIdAsync(int id)
     {
         return await DbSet.FindAsync(id);
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync()
+    public virtual async Task<IEnumerable<T>> GetAllAsync()
     {
         return await DbSet.ToListAsync();
     }
