@@ -3,6 +3,7 @@ using MasterklubAPI.Common;
 using MasterklubAPI.DTOs.Prodaje;
 using MasterklubAPI.DTOs.Proizvodi;
 using MasterklubAPI.Extensions;
+using MasterklubAPI.Middleware;
 using MasterklubAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -51,6 +52,7 @@ public class ProdajaController : ControllerBase
     }
 
     [Authorize(Roles = Uloge.Prodavac)]
+    [RequireIdempotencyKey]
     [HttpPost("moje")]
     public async Task<ActionResult<ProdajaResponse>> PrijaviProdaju(CreateProdajaRequest request)
     {

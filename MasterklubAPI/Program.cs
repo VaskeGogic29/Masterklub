@@ -6,6 +6,7 @@ using Masterklub.Infrastructure.Data;
 using Masterklub.Infrastructure.UnitOfWork;
 using MasterklubAPI.Auth;
 using MasterklubAPI.Filters;
+using MasterklubAPI.Middleware;
 using MasterklubAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -31,6 +32,8 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddSingleton<IPasswordHasher<Korisnik>, PasswordHasher<Korisnik>>();
 builder.Services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
+
+builder.Services.AddMemoryCache();
 
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
 
@@ -81,8 +84,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<IdempotencyMiddleware>();
 
 app.MapControllers();
 

@@ -2,6 +2,7 @@ using MasterklubAPI.Auth;
 using MasterklubAPI.Common;
 using MasterklubAPI.DTOs.NarudzbineNagrada;
 using MasterklubAPI.Extensions;
+using MasterklubAPI.Middleware;
 using MasterklubAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -43,6 +44,7 @@ public class NarudzbinaNagradeController : ControllerBase
     }
 
     [Authorize(Roles = Uloge.Prodavac)]
+    [RequireIdempotencyKey]
     [HttpPost("moje")]
     public async Task<ActionResult<NarudzbinaNagradeResponse>> NaruciNagradu(CreateNarudzbinaNagradeRequest request)
     {
