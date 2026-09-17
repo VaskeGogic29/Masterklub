@@ -18,6 +18,8 @@ public class Prodavac : Korisnik
     public ICollection<Prodaja> Prodaje { get; set; } = new List<Prodaja>();
     public ICollection<NarudzbinaNagrade> NarudzbineNagrada { get; set; } = new List<NarudzbinaNagrade>();
 
+
+    //ENKAPSULACIJA PRAVILA ZA DODAVANJE I ODUZIMANJE BODOVA
     public void DodajBodove(int brojBodova)
     {
         if (brojBodova <= 0)

@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Masterklub.Domain\Masterklub.Domain.csproj" />
+    <ProjectReference Include="..\Masterklub.Infrastructure\Masterklub.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
