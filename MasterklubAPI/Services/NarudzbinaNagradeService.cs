@@ -1,6 +1,7 @@
 using Masterklub.Domain.Entities;
 using Masterklub.Domain.Enums;
 using Masterklub.Domain.Interfaces;
+using MasterklubAPI.Common;
 using MasterklubAPI.DTOs.NarudzbineNagrada;
 using MasterklubAPI.Exceptions;
 
@@ -15,10 +16,10 @@ public class NarudzbinaNagradeService : INarudzbinaNagradeService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<IEnumerable<NarudzbinaNagradeResponse>> GetAllAsync()
+    public async Task<PagedResult<NarudzbinaNagradeResponse>> GetAllAsync(PaginationParameters parametri)
     {
         var narudzbine = await _unitOfWork.NarudzbineNagrada.GetAllAsync();
-        return narudzbine.Select(MapToResponse);
+        return narudzbine.Select(MapToResponse).ToPagedResult(parametri);
     }
 
     public async Task<NarudzbinaNagradeResponse> GetByIdAsync(int id)
@@ -29,10 +30,10 @@ public class NarudzbinaNagradeService : INarudzbinaNagradeService
         return MapToResponse(narudzbina);
     }
 
-    public async Task<IEnumerable<NarudzbinaNagradeResponse>> GetZaProdavcaAsync(int prodavacId)
+    public async Task<PagedResult<NarudzbinaNagradeResponse>> GetZaProdavcaAsync(int prodavacId, PaginationParameters parametri)
     {
         var narudzbine = await _unitOfWork.NarudzbineNagrada.GetZaProdavcaAsync(prodavacId);
-        return narudzbine.Select(MapToResponse);
+        return narudzbine.Select(MapToResponse).ToPagedResult(parametri);
     }
 
     // USE CASE 2: Prodavac naručuje nagradu.

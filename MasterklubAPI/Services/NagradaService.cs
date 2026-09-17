@@ -1,5 +1,6 @@
 using Masterklub.Domain.Entities;
 using Masterklub.Domain.Interfaces;
+using MasterklubAPI.Common;
 using MasterklubAPI.DTOs.Nagrade;
 using MasterklubAPI.Exceptions;
 
@@ -14,10 +15,10 @@ public class NagradaService : INagradaService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<IEnumerable<NagradaResponse>> GetAllAsync()
+    public async Task<PagedResult<NagradaResponse>> GetAllAsync(PaginationParameters parametri)
     {
         var nagrade = await _unitOfWork.Nagrade.GetAllAsync();
-        return nagrade.Select(MapToResponse);
+        return nagrade.Select(MapToResponse).ToPagedResult(parametri);
     }
 
     public async Task<NagradaResponse> GetByIdAsync(int id)

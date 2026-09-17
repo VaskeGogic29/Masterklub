@@ -1,5 +1,6 @@
 using Masterklub.Domain.Entities;
 using Masterklub.Domain.Interfaces;
+using MasterklubAPI.Common;
 using MasterklubAPI.DTOs.Prodavci;
 using MasterklubAPI.Exceptions;
 
@@ -14,10 +15,10 @@ public class ProdavacService : IProdavacService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<IEnumerable<ProdavacResponse>> GetAllAsync()
+    public async Task<PagedResult<ProdavacResponse>> GetAllAsync(PaginationParameters parametri)
     {
         var prodavci = await _unitOfWork.Prodavci.GetAllAsync();
-        return prodavci.Select(MapToResponse);
+        return prodavci.Select(MapToResponse).ToPagedResult(parametri);
     }
 
     public async Task<ProdavacResponse> GetByIdAsync(int id)
@@ -77,6 +78,15 @@ public class ProdavacService : IProdavacService
         await _unitOfWork.SaveChangesAsync();
 
         return MapToResponse(prodavac);
+    }
+
+    public async Task DeleteAsync(int prodavacId)
+    {
+        var prodavac = await _unitOfWork.Prodavci.GetByIdAsync(prodavacId)
+            ?? throw new NotFoundException($"Prodavac sa Id {prodavacId} ne postoji.");
+
+        _unitOfWork.Prodavci.Remove(prodavac);
+        await _unitOfWork.SaveChangesAsync();
     }
 
     private static ProdavacResponse MapToResponse(Prodavac prodavac) => new(

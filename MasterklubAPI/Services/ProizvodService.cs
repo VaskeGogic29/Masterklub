@@ -1,6 +1,7 @@
 using Masterklub.Domain.Entities;
 using Masterklub.Domain.Enums;
 using Masterklub.Domain.Interfaces;
+using MasterklubAPI.Common;
 using MasterklubAPI.DTOs.Proizvodi;
 using MasterklubAPI.Exceptions;
 
@@ -15,10 +16,10 @@ public class ProizvodService : IProizvodService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<IEnumerable<ProizvodResponse>> GetAllAsync()
+    public async Task<PagedResult<ProizvodResponse>> GetAllAsync(PaginationParameters parametri)
     {
         var proizvodi = await _unitOfWork.Proizvodi.GetAllAsync();
-        return proizvodi.Select(MapToResponse);
+        return proizvodi.Select(MapToResponse).ToPagedResult(parametri);
     }
 
     public async Task<ProizvodResponse> GetByIdAsync(int id)
@@ -29,10 +30,10 @@ public class ProizvodService : IProizvodService
         return MapToResponse(proizvod);
     }
 
-    public async Task<IEnumerable<ProizvodResponse>> GetPoKategorijiAsync(KategorijaProizvoda kategorija)
+    public async Task<PagedResult<ProizvodResponse>> GetPoKategorijiAsync(KategorijaProizvoda kategorija, PaginationParameters parametri)
     {
         var proizvodi = await _unitOfWork.Proizvodi.GetPoKategorijiAsync(kategorija);
-        return proizvodi.Select(MapToResponse);
+        return proizvodi.Select(MapToResponse).ToPagedResult(parametri);
     }
 
     public async Task<ProizvodResponse> CreateAsync(CreateProizvodRequest request)

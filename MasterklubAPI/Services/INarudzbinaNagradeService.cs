@@ -1,11 +1,12 @@
+using MasterklubAPI.Common;
 using MasterklubAPI.DTOs.NarudzbineNagrada;
 
 namespace MasterklubAPI.Services;
 
 public interface INarudzbinaNagradeService
 {
-    Task<IEnumerable<NarudzbinaNagradeResponse>> GetAllAsync();
+    Task<PagedResult<NarudzbinaNagradeResponse>> GetAllAsync(PaginationParameters parametri);
     Task<NarudzbinaNagradeResponse> GetByIdAsync(int id);
-    Task<IEnumerable<NarudzbinaNagradeResponse>> GetZaProdavcaAsync(int prodavacId);
+    Task<PagedResult<NarudzbinaNagradeResponse>> GetZaProdavcaAsync(int prodavacId, PaginationParameters parametri);
     Task<NarudzbinaNagradeResponse> NaruciNagraduAsync(int prodavacId, CreateNarudzbinaNagradeRequest request);
 }

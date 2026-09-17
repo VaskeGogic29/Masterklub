@@ -1,9 +1,10 @@
+using System.ComponentModel.DataAnnotations;
 using Masterklub.Domain.Enums;
 
 namespace MasterklubAPI.DTOs.Proizvodi;
 
 public record UpdateProizvodRequest(
-    string Naziv,
-    int BrojBodova,
-    KategorijaProizvoda Kategorija,
-    StatusEntiteta Status);
+    [property: Required, MaxLength(100)] string Naziv,
+    [property: Range(1, int.MaxValue)] int BrojBodova,
+    [property: EnumDataType(typeof(KategorijaProizvoda))] KategorijaProizvoda Kategorija,
+    [property: EnumDataType(typeof(StatusEntiteta))] StatusEntiteta Status);

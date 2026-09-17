@@ -1,7 +1,9 @@
 using Masterklub.Domain.Entities;
 using Masterklub.Domain.Enums;
 using Masterklub.Domain.Interfaces;
+using MasterklubAPI.Common;
 using MasterklubAPI.DTOs.Prodaje;
+using MasterklubAPI.DTOs.Proizvodi;
 using MasterklubAPI.Exceptions;
 
 namespace MasterklubAPI.Services;
@@ -15,10 +17,10 @@ public class ProdajaService : IProdajaService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<IEnumerable<ProdajaResponse>> GetAllAsync()
+    public async Task<PagedResult<ProdajaResponse>> GetAllAsync(PaginationParameters parametri)
     {
         var prodaje = await _unitOfWork.Prodaje.GetAllAsync();
-        return prodaje.Select(MapToResponse);
+        return prodaje.Select(MapToResponse).ToPagedResult(parametri);
     }
 
     public async Task<ProdajaResponse> GetByIdAsync(int id)
@@ -29,10 +31,10 @@ public class ProdajaService : IProdajaService
         return MapToResponse(prodaja);
     }
 
-    public async Task<IEnumerable<ProdajaResponse>> GetZaProdavcaAsync(int prodavacId)
+    public async Task<PagedResult<ProdajaResponse>> GetZaProdavcaAsync(int prodavacId, PaginationParameters parametri)
     {
         var prodaje = await _unitOfWork.Prodaje.GetZaProdavcaAsync(prodavacId);
-        return prodaje.Select(MapToResponse);
+        return prodaje.Select(MapToResponse).ToPagedResult(parametri);
     }
 
     // USE CASE 1: Prodavac prijavljuje prodaju proizvoda.
@@ -62,6 +64,15 @@ public class ProdajaService : IProdajaService
         await _unitOfWork.SaveChangesAsync();
 
         return MapToResponse(prodaja, prodavac, proizvod);
+    }
+
+    public async Task<IEnumerable<NajprodavanijiProizvodResponse>> GetTop5NajprodavanijihProizvodaAsync()
+    {
+        var top5 = await _unitOfWork.Prodaje.GetTop5NajprodavanijihProizvodaAsync();
+        return top5.Select(stavka => new NajprodavanijiProizvodResponse(
+            stavka.Proizvod.Id,
+            stavka.Proizvod.Naziv,
+            stavka.UkupnoProdatihKomada));
     }
 
     private static ProdajaResponse MapToResponse(Prodaja prodaja) => new(

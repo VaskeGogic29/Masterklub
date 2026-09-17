@@ -1,5 +1,6 @@
 using Masterklub.Domain.Entities;
 using Masterklub.Domain.Interfaces;
+using MasterklubAPI.Common;
 using MasterklubAPI.DTOs.Administratori;
 using MasterklubAPI.Exceptions;
 
@@ -14,10 +15,10 @@ public class AdministratorService : IAdministratorService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<IEnumerable<AdministratorResponse>> GetAllAsync()
+    public async Task<PagedResult<AdministratorResponse>> GetAllAsync(PaginationParameters parametri)
     {
         var administratori = await _unitOfWork.Administratori.GetAllAsync();
-        return administratori.Select(MapToResponse);
+        return administratori.Select(MapToResponse).ToPagedResult(parametri);
     }
 
     public async Task<AdministratorResponse> GetByIdAsync(int id)

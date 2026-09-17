@@ -1,6 +1,8 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace MasterklubAPI.DTOs.Prodavci;
 
 public record UpdateProdavacRequest(
-    string Ime,
-    string Prezime,
-    string Email);
+    [property: Required, MaxLength(50)] string Ime,
+    [property: Required, MaxLength(50)] string Prezime,
+    [property: Required, EmailAddress, MaxLength(100)] string Email);
