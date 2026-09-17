@@ -16,6 +16,7 @@ public class MasterklubDbContext : DbContext
     public DbSet<Nagrada> Nagrade => Set<Nagrada>();
     public DbSet<Prodaja> Prodaje => Set<Prodaja>();
     public DbSet<NarudzbinaNagrade> NarudzbineNagrada => Set<NarudzbinaNagrade>();
+    public DbSet<Korisnik> Korisnici => Set<Korisnik>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -3,16 +3,19 @@ using Masterklub.Domain.Interfaces;
 using MasterklubAPI.Common;
 using MasterklubAPI.DTOs.Administratori;
 using MasterklubAPI.Exceptions;
+using Microsoft.AspNetCore.Identity;
 
 namespace MasterklubAPI.Services;
 
 public class AdministratorService : IAdministratorService
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IPasswordHasher<Korisnik> _passwordHasher;
 
-    public AdministratorService(IUnitOfWork unitOfWork)
+    public AdministratorService(IUnitOfWork unitOfWork, IPasswordHasher<Korisnik> passwordHasher)
     {
         _unitOfWork = unitOfWork;
+        _passwordHasher = passwordHasher;
     }
 
     public async Task<PagedResult<AdministratorResponse>> GetAllAsync(PaginationParameters parametri)
@@ -37,6 +40,8 @@ public class AdministratorService : IAdministratorService
             Prezime = request.Prezime,
             Email = request.Email
         };
+
+        administrator.LozinkaHash = _passwordHasher.HashPassword(administrator, request.Lozinka);
 
         await _unitOfWork.Administratori.AddAsync(administrator);
         await _unitOfWork.SaveChangesAsync();

@@ -10,6 +10,7 @@ public interface IUnitOfWork : IDisposable
     INagradaRepository Nagrade { get; }
     IProdajaRepository Prodaje { get; }
     INarudzbinaNagradeRepository NarudzbineNagrada { get; }
+    IKorisnikRepository Korisnici { get; }
 
     Task<int> SaveChangesAsync();
 }

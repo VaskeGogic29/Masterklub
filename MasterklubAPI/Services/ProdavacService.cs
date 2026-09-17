@@ -3,16 +3,19 @@ using Masterklub.Domain.Interfaces;
 using MasterklubAPI.Common;
 using MasterklubAPI.DTOs.Prodavci;
 using MasterklubAPI.Exceptions;
+using Microsoft.AspNetCore.Identity;
 
 namespace MasterklubAPI.Services;
 
 public class ProdavacService : IProdavacService
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IPasswordHasher<Korisnik> _passwordHasher;
 
-    public ProdavacService(IUnitOfWork unitOfWork)
+    public ProdavacService(IUnitOfWork unitOfWork, IPasswordHasher<Korisnik> passwordHasher)
     {
         _unitOfWork = unitOfWork;
+        _passwordHasher = passwordHasher;
     }
 
     public async Task<PagedResult<ProdavacResponse>> GetAllAsync(PaginationParameters parametri)
@@ -44,6 +47,8 @@ public class ProdavacService : IProdavacService
             Email = request.Email,
             TipProdavca = request.TipProdavca
         };
+
+        prodavac.LozinkaHash = _passwordHasher.HashPassword(prodavac, request.Lozinka);
 
         await _unitOfWork.Prodavci.AddAsync(prodavac);
         await _unitOfWork.SaveChangesAsync();

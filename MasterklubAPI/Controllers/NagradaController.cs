@@ -1,12 +1,15 @@
+using MasterklubAPI.Auth;
 using MasterklubAPI.Common;
 using MasterklubAPI.DTOs.Nagrade;
 using MasterklubAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MasterklubAPI.Controllers;
 
 [ApiController]
 [Route("api/nagrade")]
+[Authorize]
 public class NagradaController : ControllerBase
 {
     private readonly INagradaService _nagradaService;
@@ -28,6 +31,7 @@ public class NagradaController : ControllerBase
         return Ok(await _nagradaService.GetByIdAsync(id));
     }
 
+    [Authorize(Roles = Uloge.Administrator)]
     [HttpPost]
     public async Task<ActionResult<NagradaResponse>> Create(CreateNagradaRequest request)
     {
@@ -35,12 +39,14 @@ public class NagradaController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = novaNagrada.Id }, novaNagrada);
     }
 
+    [Authorize(Roles = Uloge.Administrator)]
     [HttpPut("{id:int}")]
     public async Task<ActionResult<NagradaResponse>> Update(int id, UpdateNagradaRequest request)
     {
         return Ok(await _nagradaService.UpdateAsync(id, request));
     }
 
+    [Authorize(Roles = Uloge.Administrator)]
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {

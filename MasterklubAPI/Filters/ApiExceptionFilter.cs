@@ -15,6 +15,11 @@ public class ApiExceptionFilter : IExceptionFilter
                 context.ExceptionHandled = true;
                 break;
 
+            case AuthenticationFailedException authenticationFailedException:
+                context.Result = new UnauthorizedObjectResult(new { poruka = authenticationFailedException.Message });
+                context.ExceptionHandled = true;
+                break;
+
             case InvalidOperationException invalidOperationException:
                 context.Result = new ConflictObjectResult(new { poruka = invalidOperationException.Message });
                 context.ExceptionHandled = true;

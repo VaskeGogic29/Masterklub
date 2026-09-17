@@ -15,6 +15,7 @@ public class UnitOfWork : IUnitOfWork
     private INagradaRepository? _nagrade;
     private IProdajaRepository? _prodaje;
     private INarudzbinaNagradeRepository? _narudzbineNagrada;
+    private IKorisnikRepository? _korisnici;
 
     public UnitOfWork(MasterklubDbContext context)
     {
@@ -27,6 +28,7 @@ public class UnitOfWork : IUnitOfWork
     public INagradaRepository Nagrade => _nagrade ??= new NagradaRepository(_context);
     public IProdajaRepository Prodaje => _prodaje ??= new ProdajaRepository(_context);
     public INarudzbinaNagradeRepository NarudzbineNagrada => _narudzbineNagrada ??= new NarudzbinaNagradeRepository(_context);
+    public IKorisnikRepository Korisnici => _korisnici ??= new KorisnikRepository(_context);
 
     public async Task<int> SaveChangesAsync()
     {

@@ -1,13 +1,16 @@
 using Masterklub.Domain.Enums;
+using MasterklubAPI.Auth;
 using MasterklubAPI.Common;
 using MasterklubAPI.DTOs.Proizvodi;
 using MasterklubAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MasterklubAPI.Controllers;
 
 [ApiController]
 [Route("api/proizvodi")]
+[Authorize]
 public class ProizvodController : ControllerBase
 {
     private readonly IProizvodService _proizvodService;
@@ -35,6 +38,7 @@ public class ProizvodController : ControllerBase
         return Ok(await _proizvodService.GetByIdAsync(id));
     }
 
+    [Authorize(Roles = Uloge.Administrator)]
     [HttpPost]
     public async Task<ActionResult<ProizvodResponse>> Create(CreateProizvodRequest request)
     {
@@ -42,12 +46,14 @@ public class ProizvodController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = noviProizvod.Id }, noviProizvod);
     }
 
+    [Authorize(Roles = Uloge.Administrator)]
     [HttpPut("{id:int}")]
     public async Task<ActionResult<ProizvodResponse>> Update(int id, UpdateProizvodRequest request)
     {
         return Ok(await _proizvodService.UpdateAsync(id, request));
     }
 
+    [Authorize(Roles = Uloge.Administrator)]
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {

@@ -27,6 +27,10 @@ public class KorisnikConfiguration : IEntityTypeConfiguration<Korisnik>
         builder.HasIndex(k => k.Email)
             .IsUnique();
 
+        builder.Property(k => k.LozinkaHash)
+            .IsRequired()
+            .HasMaxLength(500);
+
         builder.Property(k => k.Status)
             .IsRequired()
             .HasConversion<string>()
