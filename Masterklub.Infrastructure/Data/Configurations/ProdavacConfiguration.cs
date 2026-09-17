@@ -1,4 +1,5 @@
 using Masterklub.Domain.Entities;
+using Masterklub.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -28,5 +29,46 @@ public class ProdavacConfiguration : IEntityTypeConfiguration<Prodavac>
 
         builder.Property(p => p.Nivo)
             .IsRequired();
+
+        builder.HasData(
+            new
+            {
+                Id = 2,
+                Ime = "Marko",
+                Prezime = "Marković",
+                Email = "marko@masterklub.rs",
+                LozinkaHash = "AQAAAAEAAYagAAAAEGjTLdohWuB5XfYIxllgLOOj8hB1KUCE6JuKKbi5G3KlunRZs428WUUYiIiAeYawrA==",
+                Status = StatusEntiteta.Aktivan,
+                TipProdavca = TipProdavca.Prodavac,
+                BrojPoena = 0,
+                UkupnoOstvarenihBodova = 0,
+                Nivo = 1
+            },
+            new
+            {
+                Id = 3,
+                Ime = "Ana",
+                Prezime = "Anić",
+                Email = "ana@masterklub.rs",
+                LozinkaHash = "AQAAAAEAAYagAAAAEGjTLdohWuB5XfYIxllgLOOj8hB1KUCE6JuKKbi5G3KlunRZs428WUUYiIiAeYawrA==",
+                Status = StatusEntiteta.Aktivan,
+                TipProdavca = TipProdavca.Prodavac,
+                BrojPoena = 0,
+                UkupnoOstvarenihBodova = 0,
+                Nivo = 1
+            },
+            new
+            {
+                Id = 4,
+                Ime = "Jovan",
+                Prezime = "Jovanović",
+                Email = "jovan@masterklub.rs",
+                LozinkaHash = "AQAAAAEAAYagAAAAEGjTLdohWuB5XfYIxllgLOOj8hB1KUCE6JuKKbi5G3KlunRZs428WUUYiIiAeYawrA==",
+                Status = StatusEntiteta.Aktivan,
+                TipProdavca = TipProdavca.Menadzer,
+                BrojPoena = 0,
+                UkupnoOstvarenihBodova = 0,
+                Nivo = 1
+            });
     }
 }
