@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.Json.Serialization;
+using FluentValidation;
 using Masterklub.Domain.Entities;
 using Masterklub.Domain.Interfaces;
 using Masterklub.Infrastructure.Data;
@@ -62,9 +63,12 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ApiExceptionFilter>();
+    options.Filters.Add<FluentValidationActionFilter>();
 })
 .AddJsonOptions(options =>
 {
